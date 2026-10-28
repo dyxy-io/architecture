@@ -11,8 +11,9 @@ A high-level overview of how DYXY is put together: which venues and protocols ea
 ## Design principles
 
 - **Aggregate, don't rebuild.** DYXY connects to the deepest existing liquidity and the most established protocols instead of fragmenting liquidity with its own copies.
-- **Non-custodial by default.** Users connect their own wallet and sign every transaction. Funds go directly to the integrated venues and protocols.
+- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the Aster and Hyperliquid engines. Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
 - **Isolate risk by product.** Products that use margin trade from separate balances, so a position in one product cannot draw on funds in another.
+- **Wallet-native where it fits.** Swaps, stocks, pools, staking and lending run straight from the user's wallet into the integrated protocols.
 - **One interface, many networks.** Eight networks and every product are reachable from one app and one portfolio view.
 
 ## System overview
@@ -91,7 +92,7 @@ flowchart LR
 | Degen balance | Degen mode | Degen mode only |
 | Bots balance | Trading bots | All bots; each bot reserves its own investment |
 
-## Lifecycle of a request
+## Lifecycle of a trade on a balance
 
 ```mermaid
 sequenceDiagram
@@ -100,14 +101,15 @@ sequenceDiagram
     participant W as Wallet
     participant V as Venue or protocol
 
-    U->>A: Choose product, asset and amount
-    A->>V: Request quote or market data
-    V-->>A: Price, route, fees, risk data
-    A-->>U: Show quote, fees and risk figures
-    U->>W: Review and sign
-    W->>V: Submit transaction
-    V-->>A: Execution result
-    A-->>U: Updated balances, positions and history
+    U->>W: Deposit into a trading balance (once)
+    W->>V: Funds credited to the isolated balance
+    loop Every order, no wallet pop-up
+        U->>A: Order: market, size, leverage
+        A->>V: Submit order from the balance
+        V-->>A: Fill
+        A-->>U: Updated position and PnL
+    end
+    U->>W: Withdraw when done
 ```
 
 ## Networks
