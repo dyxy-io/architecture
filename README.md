@@ -28,7 +28,8 @@ flowchart TB
     subgraph TRADE["Trade"]
         SW["Swap<br/>market · limit · TWAP"]
         ST["Stocks<br/>tokenized equities"]
-        PV["Perps V1 / V2"]
+        PV1["Perps V1<br/>liquidity pool"]
+        PV2["Perps V2<br/>order book"]
         DG["Degen mode"]
     end
 
@@ -48,7 +49,8 @@ flowchart TB
 
     SW --> DEX["DEX liquidity on<br/>8 networks"]
     ST --> DEX
-    PV --> ASTER["Aster engine"]
+    PV1 --> ASTER["Aster engine"]
+    PV2 --> ASTER
     DG --> HL["Hyperliquid<br/>(HyperEVM)"]
     BOT --> HL
     PL --> AMM["PancakeSwap · Uniswap<br/>Aerodrome"]
@@ -62,8 +64,9 @@ flowchart TB
 | --- | --- | --- |
 | Swap | DEX liquidity on the selected network | User wallet. Tokens leave and return in the same transaction |
 | Stocks | Liquidity for tokenized stocks on the issuer's network | User wallet |
-| Perps V1 and V2 | Aster | Perps balance |
-| Degen mode | Hyperliquid (HyperEVM) | Degen balance |
+| Perps V1 | Aster, liquidity pool | Perps balance |
+| Perps V2 | Aster, order book | Perps balance |
+| Degen mode | Hyperliquid (HyperEVM), liquidity pool | Degen balance |
 | Trading bots | Hyperliquid (HyperEVM) | Bots balance, in Hyperliquid contracts |
 | Pools | PancakeSwap, Uniswap, Aerodrome | The protocol's pool contracts |
 | Staking | Network validators, Marinade, StakeWise, BENQI | Stake accounts, delegations or liquid staking tokens |
@@ -79,8 +82,8 @@ flowchart LR
     W -- deposit / withdraw --> PB["Perps balance<br/>(Aster)"]
     W -- deposit / withdraw --> DB["Degen balance<br/>(Hyperliquid)"]
     W -- deposit / withdraw --> BB["Bots balance<br/>(Hyperliquid)"]
-    PB --> V1["Perps V1"]
-    PB --> V2["Perps V2"]
+    PB --> V1["Perps V1<br/>liquidity pool"]
+    PB --> V2["Perps V2<br/>order book"]
     DB --> DG["Degen mode"]
     BB --> B1["Bot 1"]
     BB --> B2["Bot 2"]
@@ -88,7 +91,7 @@ flowchart LR
 
 | Balance | Used by | Shared between |
 | --- | --- | --- |
-| Perps balance | Perps V1 and V2 | V1 and V2 share positions and margin |
+| Perps balance | Perps V1 and V2 | V1 and V2 draw on the same balance |
 | Degen balance | Degen mode | Degen mode only |
 | Bots balance | Trading bots | All bots; each bot reserves its own investment |
 
