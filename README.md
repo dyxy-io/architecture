@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="https://docs.dyxy.io/logo/dark.svg" alt="DYXY" height="48">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://docs.dyxy.io/logo/dark.svg">
+    <img src="https://docs.dyxy.io/logo/light.svg" alt="DYXY" height="48">
+  </picture>
 </p>
 
 # DYXY architecture
@@ -11,7 +14,7 @@ A high-level overview of how DYXY is put together: which venues and protocols ea
 ## Design principles
 
 - **Aggregate, don't rebuild.** DYXY connects to the deepest existing liquidity and the most established protocols instead of fragmenting liquidity with its own copies.
-- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the Aster and Hyperliquid engines. Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
+- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the Hyperliquid engine (HyperEVM). Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
 - **Isolate risk by product.** Products that use margin trade from separate balances, so a position in one product cannot draw on funds in another.
 - **Wallet-native where it fits.** Swaps, stocks, pools, staking and lending run straight from the user's wallet into the integrated protocols.
 - **One interface, many networks.** Eight networks and every product are reachable from one app and one portfolio view.
@@ -49,8 +52,8 @@ flowchart TB
 
     SW --> DEX["DEX liquidity on<br/>8 networks"]
     ST --> DEX
-    PV1 --> ASTER["Aster engine"]
-    PV2 --> ASTER
+    PV1 --> HL
+    PV2 --> HL
     DG --> HL["Hyperliquid<br/>(HyperEVM)"]
     BOT --> HL
     PL --> AMM["PancakeSwap · Uniswap<br/>Aerodrome"]
@@ -64,8 +67,8 @@ flowchart TB
 | --- | --- | --- |
 | Swap | DEX liquidity on the selected network | User wallet. Tokens leave and return in the same transaction |
 | Stocks | Liquidity for tokenized stocks on the issuer's network | User wallet |
-| Perps V1 | Aster, liquidity pool | Perps balance |
-| Perps V2 | Aster, order book | Perps balance |
+| Perps V1 | Hyperliquid (HyperEVM), liquidity pool | Perps balance |
+| Perps V2 | Hyperliquid (HyperEVM), order book | Perps balance |
 | Degen mode | Hyperliquid (HyperEVM), liquidity pool | Degen balance |
 | Trading bots | Hyperliquid (HyperEVM) | Bots balance, in Hyperliquid contracts |
 | Pools | PancakeSwap, Uniswap, Aerodrome | The protocol's pool contracts |
@@ -79,7 +82,7 @@ Swaps, stocks and earn products run straight from the user's wallet. Products wi
 ```mermaid
 flowchart LR
     W["User wallet"]
-    W -- deposit / withdraw --> PB["Perps balance<br/>(Aster)"]
+    W -- deposit / withdraw --> PB["Perps balance<br/>(Hyperliquid)"]
     W -- deposit / withdraw --> DB["Degen balance<br/>(Hyperliquid)"]
     W -- deposit / withdraw --> BB["Bots balance<br/>(Hyperliquid)"]
     PB --> V1["Perps V1<br/>liquidity pool"]
@@ -130,7 +133,7 @@ sequenceDiagram
 
 ## Revenue model
 
-DYXY earns only **trading fees**, a percentage of traded volume on swaps, perps, stocks and bots. There are no deposit, withdrawal or subscription fees, and no DYXY fee on pools, staking or lending. Part of trading fees is shared with referrers through the [referral program](https://github.com/dyxy-io/referral-program).
+DYXY earns only **trading fees** on **perps** and **trading bots**, a percentage of traded volume. Swaps, stocks, pools, staking and lending carry no DYXY fee, and there are no deposit, withdrawal or subscription fees. Part of trading fees is shared with referrers through the [referral program](https://github.com/dyxy-io/referral-program).
 
 ## Product repositories
 
