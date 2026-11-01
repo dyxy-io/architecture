@@ -133,7 +133,14 @@ sequenceDiagram
 
 ## Revenue model
 
-DYXY earns only **trading fees** on **perps** and **trading bots**, a percentage of traded volume. Swaps, stocks, pools, staking and lending carry no DYXY fee, and there are no deposit, withdrawal or subscription fees. Part of trading fees is shared with referrers through the [referral program](https://github.com/dyxy-io/referral-program).
+DYXY earns two kinds of fees:
+
+| Fee | Products | Referral program |
+| --- | --- | --- |
+| **Trading fee**, a percentage of traded volume | Perps (V1, V2, Degen mode), trading bots | Yes |
+| **Service fee**, as on other aggregators | Swaps, stocks, pools, pooled staking, lending | No |
+
+There are no deposit, withdrawal or subscription fees. Part of trading fees is shared with referrers through the [referral program](https://github.com/dyxy-io/referral-program).
 
 ## Product repositories
 
