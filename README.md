@@ -17,7 +17,7 @@ A high-level overview of how DYXY is put together: which venues and protocols ea
 - **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the Hyperliquid engine (HyperEVM). Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
 - **Isolate risk by product.** Products that use margin trade from separate balances, so a position in one product cannot draw on funds in another.
 - **Wallet-native where it fits.** Swaps, stocks, pools, staking and lending run straight from the user's wallet into the integrated protocols.
-- **One interface, many networks.** Eight networks and every product are reachable from one app and one portfolio view.
+- **One interface, many networks.** 8 networks and every product are reachable from one app and one portfolio view.
 
 ## System overview
 
@@ -57,7 +57,7 @@ flowchart TB
     DG --> HL["Hyperliquid<br/>(HyperEVM)"]
     BOT --> HL
     PL --> AMM["PancakeSwap · Uniswap<br/>Aerodrome"]
-    SK --> STK["Validators · Marinade<br/>StakeWise · BENQI"]
+    SK --> STK["Validators · liquid staking<br/>StakeWise (pooled)"]
     LD --> LEND["Aave · Morpho<br/>Kamino · Fluid"]
 ```
 
@@ -72,7 +72,7 @@ flowchart TB
 | Degen mode | Hyperliquid (HyperEVM), liquidity pool | Degen balance |
 | Trading bots | Hyperliquid (HyperEVM) | Bots balance, in Hyperliquid contracts |
 | Pools | PancakeSwap, Uniswap, Aerodrome | The protocol's pool contracts |
-| Staking | Network validators, Marinade, StakeWise, BENQI | Stake accounts, delegations or liquid staking tokens |
+| Staking | Validators (native), liquid staking protocols (liquid), StakeWise (pooled) | Stake accounts, delegations or liquid staking tokens |
 | Lend | Aave, Morpho, Kamino, Fluid | The protocol's lending contracts |
 
 ## Balances
