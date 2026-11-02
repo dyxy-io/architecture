@@ -14,7 +14,7 @@ A high-level overview of how DYXY is put together: which venues and protocols ea
 ## Design principles
 
 - **Aggregate, don't rebuild.** DYXY connects to the deepest existing liquidity and the most established protocols instead of fragmenting liquidity with its own copies.
-- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the Hyperliquid engine (HyperEVM). Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
+- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the HyperEVM engine. Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
 - **Isolate risk by product.** Products that use margin trade from separate balances, so a position in one product cannot draw on funds in another.
 - **Wallet-native where it fits.** Swaps, stocks, pools, staking and lending run straight from the user's wallet into the integrated protocols.
 - **One interface, many networks.** 8 networks and every product are reachable from one app and one portfolio view.
@@ -54,7 +54,7 @@ flowchart TB
     ST --> DEX
     PV1 --> HL
     PV2 --> HL
-    DG --> HL["Hyperliquid<br/>(HyperEVM)"]
+    DG --> HL["HyperEVM"]
     BOT --> HL
     PL --> AMM["PancakeSwap · Uniswap<br/>Aerodrome"]
     SK --> STK["Validators · liquid staking<br/>StakeWise (pooled)"]
@@ -67,10 +67,10 @@ flowchart TB
 | --- | --- | --- |
 | Swap | DEX liquidity on the selected network | User wallet. Tokens leave and return in the same transaction |
 | Stocks | Liquidity for tokenized stocks on the issuer's network | User wallet |
-| Perps V1 | Hyperliquid (HyperEVM), liquidity pool | Perps balance |
-| Perps V2 | Hyperliquid (HyperEVM), order book | Perps balance |
-| Degen mode | Hyperliquid (HyperEVM), liquidity pool | Degen balance |
-| Trading bots | Hyperliquid (HyperEVM) | Bots balance, in Hyperliquid contracts |
+| Perps V1 | HyperEVM, liquidity pool | Perps balance |
+| Perps V2 | HyperEVM, order book | Perps balance |
+| Degen mode | HyperEVM, liquidity pool | Degen balance |
+| Trading bots | HyperEVM | Bots balance, in HyperEVM contracts |
 | Pools | PancakeSwap, Uniswap, Aerodrome | The protocol's pool contracts |
 | Staking | Validators (native), liquid staking protocols (liquid), StakeWise (pooled) | Stake accounts, delegations or liquid staking tokens |
 | Lend | Aave, Morpho, Kamino, Fluid | The protocol's lending contracts |
@@ -82,9 +82,9 @@ Swaps, stocks and earn products run straight from the user's wallet. Products wi
 ```mermaid
 flowchart LR
     W["User wallet"]
-    W -- deposit / withdraw --> PB["Perps balance<br/>(Hyperliquid)"]
-    W -- deposit / withdraw --> DB["Degen balance<br/>(Hyperliquid)"]
-    W -- deposit / withdraw --> BB["Bots balance<br/>(Hyperliquid)"]
+    W -- deposit / withdraw --> PB["Perps balance<br/>(HyperEVM)"]
+    W -- deposit / withdraw --> DB["Degen balance<br/>(HyperEVM)"]
+    W -- deposit / withdraw --> BB["Bots balance<br/>(HyperEVM)"]
     PB --> V1["Perps V1<br/>liquidity pool"]
     PB --> V2["Perps V2<br/>order book"]
     DB --> DG["Degen mode"]
