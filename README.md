@@ -14,7 +14,7 @@ A high-level overview of how DYXY is put together: which venues and protocols ea
 ## Design principles
 
 - **Aggregate, don't rebuild.** DYXY connects to the deepest existing liquidity and the most established protocols instead of fragmenting liquidity with its own copies.
-- **Deposit once, trade instantly.** Perps, Degen mode and bots trade from isolated balances on the HyperEVM engine. Users confirm only deposits and withdrawals in their wallet; orders and bot trades execute without a wallet pop-up each time.
+- **Isolated trading balances.** Perps, Degen mode and bots trade from separate balances on HyperEVM that users deposit into and withdraw from.
 - **Isolate risk by product.** Products that use margin trade from separate balances, so a position in one product cannot draw on funds in another.
 - **Wallet-native where it fits.** Swaps, stocks, pools, staking and lending run straight from the user's wallet into the integrated protocols.
 - **One interface, many networks.** 8 networks and every product are reachable from one app and one portfolio view.
@@ -109,7 +109,7 @@ sequenceDiagram
 
     U->>W: Deposit into a trading balance (once)
     W->>V: Funds credited to the isolated balance
-    loop Every order, no wallet pop-up
+    loop Trading from the balance
         U->>A: Order: market, size, leverage
         A->>V: Submit order from the balance
         V-->>A: Fill
@@ -127,7 +127,7 @@ sequenceDiagram
 | Solana | Non-EVM, layer 1 | SOL |
 | Arbitrum | EVM, Ethereum layer 2 | ETH |
 | Base | EVM, Ethereum layer 2 | ETH |
-| HyperEVM | EVM, Hyperliquid's smart contract layer | HYPE |
+| HyperEVM | EVM | HYPE |
 | Avalanche | EVM, C-Chain | AVAX |
 | Robinhood Chain | EVM, built on the Arbitrum platform | ETH |
 
